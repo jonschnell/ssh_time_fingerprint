@@ -14,9 +14,10 @@ if __name__ == "__main__":
     #argument parser
     parser = argparse.ArgumentParser()
     parser.add_argument("IP", help="[IP] OR [FQDN] to be fingerprinted")
+    parser.add_argument("port", help="[port] port to connect on")
     parser.add_argument("uname", help="[uname] username to log in as")
     parser.add_argument("passwd", help="[passwd] password to log in with")
-    parser.add_argument("port", help="[port] port to connect on")
+    parser.add_argument("num", help="[num_attempts] number of attempts to make before calculating averages")
     
     args = parser.parse_args()
     
@@ -24,6 +25,7 @@ if __name__ == "__main__":
     passwd = args.passwd
     uname = args.uname
     port = args.port
+    num = args.num
     
     host = IP
     username = uname
@@ -39,7 +41,7 @@ if __name__ == "__main__":
     
     timeARR = []
 
-    for x in range(5):
+    for x in range(int(num)):
         time.sleep(1)
         start = time.time()
         try:
@@ -47,7 +49,8 @@ if __name__ == "__main__":
         except:
             finish = time.time()
             #continue
-        finish = time.time()
+        finally:
+            finish = time.time()
         total = finish - start
         timeARR.append(total)
         print(f'Time: {total}')
